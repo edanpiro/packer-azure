@@ -1,0 +1,37 @@
+{
+    "variables": {
+        "az_subscription": "{{env `ARM_SUBSCRIPTION_ID`}}",
+        "az_secret": "{{env `AZ_PASSWORD`}}",
+        "az_tenant_id": "{{env `ARM_TENANT_ID`}}",
+        "az_client_id": "{{env `AZ_CLIENT_ID`}}"
+    },
+    "provisioners": [
+         {
+             "type": "ansible",
+             "playbook_file": "./playbook.yml"
+         }
+    ],
+    "builders": [{
+        "type": "azure-arm",
+
+        "client_id": "{{ user `az_client_id`}}",
+        "client_secret": "{{ user `az_secret`}}",
+        "subscription_id": "{{ user `az_subscription`}}",
+        "tenant_id": "{{ user `az_tenant_id`}}",
+        
+        "os_type": "Linux",
+        "image_publisher": "Canonical",
+        "image_offer": "UbuntuServer",
+        "image_sku": "18.04-LTS",
+
+        "managed_image_resource_group_name": "rg-tf-states",
+        "managed_image_name": "MyUbuntuImage",
+
+        "azure_tags": {
+            "dept": "engineering"
+        },
+
+        "location": "West US",
+        "vm_size": "Standard_A2"
+    }]
+}
